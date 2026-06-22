@@ -2,11 +2,13 @@ name: Continuous Autonomous Quant Desk Update Loop
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
-  workflow_dispatch:
+    - cron: '*/15 * * * *'  # Automatically triggers the automated pipeline every 15 minutes
+  workflow_dispatch:      # Retains your manual blue "Run workflow" dropdown button
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
@@ -25,10 +27,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install yfinance openpyxl pandas numpy
 
+    # Executes your clean, grounded calculation module on the cloud server node
     - name: Execute Multi-Agent Performance Audit
       run: |
         python app.py
 
+    # Automatically publishes your freshly generated dashboard page straight to your live website URL
     - name: Deploy Compiled Dashboard to Free GitHub Pages Web Link
       uses: peaceiris/actions-gh-pages@v4
       with:
