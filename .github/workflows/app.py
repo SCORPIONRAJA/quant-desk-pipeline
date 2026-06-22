@@ -106,16 +106,18 @@ for record in grounded_signals_pool:
         continue
     time.sleep(0.05)
 
-# --- 4. EXPORT VIA NATIVE PANDAS DATA HOUSING ---
+# --- 4. EXPORT VIA NATIVE PANDAS DATA HOUSING WITH FULL HTML STRUCTURAL WRAPPERS ---
 final_export_df = pd.DataFrame(processed_database)
 
-# Generate styling wrapper natively on server instance node
-html_output_buffer = """
+# Generate a 100% compliant HTML web structure skeleton layout directly inside the file write output string
+html_output_buffer = """<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <title>Autonomous Quant Desk Studio</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f1f5f9; padding: 25px; margin: 0; }
-        h2 { color: #1e293b; border-bottom: 3px solid #10b981; padding-bottom: 8px; font-size: 20px; font-family: sans-serif; margin-top:30px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f1f5f9; padding: 25px; margin: 0; }
+        h2 { color: #1e293b; border-bottom: 3px solid #10b981; padding-bottom: 8px; font-size: 20px; margin-top:30px; }
         .dataframe { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-size: 12px; margin-bottom: 35px; text-align: center; }
         .dataframe th { background-color: #1e293b; color: white; padding: 12px; font-weight: bold; }
         .dataframe td { padding: 10px; border-bottom: 1px solid #e2e8f0; color: #334155; }
@@ -129,7 +131,7 @@ html_output_buffer = """
     </div>
 """
 
-# Dynamically split tables by analyst handle
+# Convert each sub-section natively into strict, structured HTML table elements
 for handle in ["@camangalarvind", "@SumeetBagadia", "@TradingMarvel"]:
     analyst_block_df = final_export_df[final_export_df['Analyst'] == handle]
     if not analyst_block_df.empty:
@@ -137,9 +139,9 @@ for handle in ["@camangalarvind", "@SumeetBagadia", "@TradingMarvel"]:
         html_output_buffer += "<h2>👤 Performance Audit Ledger: " + handle + "</h2>"
         html_output_buffer += analyst_block_df.to_html(index=False, classes='dataframe')
 
-# FIXED CLOSING SEQUENCES: Closes body tags and locks file output straight to index.html
-html_output_buffer += "</body></html>"
+html_output_buffer += "\n</body>\n</html>"
 
+# Write out the final, compliant webpage document to the web branch root
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_output_buffer)
 
