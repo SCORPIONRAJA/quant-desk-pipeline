@@ -1,4 +1,3 @@
-
 import os
 import pandas as pd
 import yfinance as yf
@@ -101,8 +100,11 @@ for record in grounded_signals_pool:
                 'Lowest Hit': f"₹{round(lowest_price, 2)} (on {lowest_date})", 'Max Drawdown %': f"{round(max_loss_pct, 1)}%",
                 'Original Tweet Text Blueprint': tweet_text
             })
-    except Exception:
+            print(f"  ✅ Factored parameters completely for: {stock_name}")
+    except Exception as e:
+        print(f"Error checking {stock_name}: {e}")
         continue
+    time.sleep(0.05)
 
 # --- 4. EXPORT VIA NATIVE PANDAS DATA HOUSING ---
 final_export_df = pd.DataFrame(processed_database)
@@ -127,6 +129,7 @@ html_output_buffer = """
     </div>
 """
 
+# Dynamically split tables by analyst handle
 for handle in ["@camangalarvind", "@SumeetBagadia", "@TradingMarvel"]:
     analyst_block_df = final_export_df[final_export_df['Analyst'] == handle]
     if not analyst_block_df.empty:
@@ -134,10 +137,12 @@ for handle in ["@camangalarvind", "@SumeetBagadia", "@TradingMarvel"]:
         html_output_buffer += "<h2>👤 Performance Audit Ledger: " + handle + "</h2>"
         html_output_buffer += analyst_block_df.to_html(index=False, classes='dataframe')
 
+# FIXED CLOSING SEQUENCES: Closes body tags and locks file output straight to index.html
 html_output_buffer += "</body></html>"
 
-# Write out file
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_output_buffer)
 
-print("🏁 Server Module Compilation Succeeded! File 'app.py' written safely to disk.")
+print("\n############################################################")
+print("🎯 PLATFORM MASTER EXPORTED TO INDEX.HTML COMPLETELY!")
+print("############################################################")
