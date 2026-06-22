@@ -1,0 +1,36 @@
+name: Continuous Autonomous Quant Desk Update Loop
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Automatically fires the pipeline every 15 minutes hands-free
+  workflow_dispatch:      # Gives you a manual "Run Workflow" button inside your browser
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source Files
+      uses: actions/checkout@v3
+
+    - name: Initialize Python Ingestion Core
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Quant Pipeline Packages
+      run: |
+        python -m pip install --upgrade pip
+        pip install yfinance openpyxl pandas numpy
+
+    # Runs your clean, grounded calculation module on the cloud server node
+    - name: Execute Multi-Agent Performance Audit
+      run: |
+        python app.py
+
+    # Automatically publishes your freshly generated dashboard page straight to your live website URL
+    - name: Deploy Compiled Dashboard to Free GitHub Pages Web Link
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
+        keep_files: true
