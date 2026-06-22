@@ -2,14 +2,16 @@ name: Continuous Autonomous Quant Desk Update Loop
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # Automatically runs every 15 minutes
-  workflow_dispatch:      # Retains your manual blue "Run workflow" button
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    # 1. Pull the newest server version nodes safely
     - name: Checkout Source Files
       uses: actions/checkout@v4
 
@@ -23,23 +25,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install yfinance openpyxl pandas numpy
 
-    # 2. SAFE TESTING LAYER: Automatically check if app.py exists on server disk
-    # This prevents the workflow from throwing cryptic exit code crashes
-    - name: Verify Application Script Location
-      run: |
-        if [ ! -f "app.py" ]; then
-          echo "⚠️ CRITICAL EXCEPTION: Could not find 'app.py' in repository folder root!"
-          echo "Listing current files on disk to locate typos:"
-          ls -la
-          exit 1
-        fi
-
-    # 3. Execute your main technical calculation pipeline script file
     - name: Execute Multi-Agent Performance Audit
       run: |
         python app.py
 
-    # 4. Automatically publish the completed webpage directly to your live link url
     - name: Deploy Compiled Dashboard to Free GitHub Pages Web Link
       uses: peaceiris/actions-gh-pages@v4
       with:
