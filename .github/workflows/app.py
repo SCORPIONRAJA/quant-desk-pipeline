@@ -137,7 +137,7 @@ for handle in ["@camangalarvind", "@SumeetBagadia", "@TradingMarvel"]:
 html_output_buffer += "</body></html>"
 
 # Write out file
-with open("dashboard.html", "w", encoding="utf-8") as f:
+with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_output_buffer)
 
 print("🏁 Server Module Compilation Succeeded! File 'app.py' written safely to disk.")
