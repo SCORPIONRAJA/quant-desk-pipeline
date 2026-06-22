@@ -109,14 +109,13 @@ for record in grounded_signals_pool:
 # --- 4. EXPORT VIA NATIVE PANDAS DATA HOUSING WITH FULL HTML STRUCTURAL WRAPPERS ---
 final_export_df = pd.DataFrame(processed_database)
 
-# Generate a 100% compliant HTML web structure skeleton layout directly inside the file write output string
 html_output_buffer = """<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Autonomous Quant Desk Studio</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f1f5f9; padding: 25px; margin: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, sans-serif; background-color: #f1f5f9; padding: 25px; margin: 0; }
         h2 { color: #1e293b; border-bottom: 3px solid #10b981; padding-bottom: 8px; font-size: 20px; margin-top:30px; }
         .dataframe { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-size: 12px; margin-bottom: 35px; text-align: center; }
         .dataframe th { background-color: #1e293b; color: white; padding: 12px; font-weight: bold; }
@@ -131,7 +130,7 @@ html_output_buffer = """<!DOCTYPE html>
     </div>
 """
 
-# Convert each sub-section natively into strict, structured HTML table elements
+# Append structured sections cleanly to the main layout buffer
 for handle in ["@camangalarvind", "@SumeetBagadia", "@TradingMarvel"]:
     analyst_block_df = final_export_df[final_export_df['Analyst'] == handle]
     if not analyst_block_df.empty:
@@ -141,7 +140,7 @@ for handle in ["@camangalarvind", "@SumeetBagadia", "@TradingMarvel"]:
 
 html_output_buffer += "\n</body>\n</html>"
 
-# Write out the final, compliant webpage document to the web branch root
+# FIXED STRATEGIC LINE: Writes out the entire compiled layout string to disk
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_output_buffer)
 
